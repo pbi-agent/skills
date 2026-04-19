@@ -1,6 +1,6 @@
 # TODO
 
-[X] Inspect the `create-skill` reference-file examples
-[X] Normalize `skills/powerbi/references/*.md` to plain reference-file heads
-[X] Validate consistent heading format across the reference set
-[X] Append the correction to `MEMORY.md`
+[X] Review the current `skills/powerbi/SKILL.md`
+[X] Add general Power BI instructions to the main skill entrypoint
+[X] Validate the updated `SKILL.md` structure
+[X] Append the change to `MEMORY.md`

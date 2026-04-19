@@ -11,3 +11,9 @@
 - Corrected the Power BI reference-file normalization target after checking the example skill at `.agents/skills/create-skill/references/*.md`.
 - Removed YAML frontmatter from all files under `skills/powerbi/references/` so reference files now start directly with an H1, matching the example pattern used by `create-skill`.
 - Validation: inspected the head of each Power BI reference file and ran a `python3` check confirming the first non-empty line in every `skills/powerbi/references/*.md` file is an H1 and no file still has frontmatter.
+
+## 2026-04-20
+
+- Added a new `General Instructions` section to `skills/powerbi/SKILL.md`.
+- Captured the shared Power BI rules for explicit measures, `_Measures` naming, protected auto-generated date tables, intentional visual placement, and style-priority order.
+- Validation: re-read the updated `SKILL.md` and checked the diff to confirm the new rules were inserted cleanly without changing the rest of the skill structure.

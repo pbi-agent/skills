@@ -35,6 +35,14 @@ Use this when the task touches any Power BI PBIP artifact or behavior.
 - Keep relationships, page filters, slicers, visual filters, drillthrough bindings, and bookmarks aligned as one system.
 - Load the smallest reference set that covers the task instead of pulling in the whole catalog.
 
+## General Instructions
+
+- Use explicit measures in visuals; never rely on implicit aggregations.
+- Dedicated measures table must be named `_Measures`, never `Measures`.
+- Never modify auto-generated date tables (`DateTableTemplate_*`, `LocalDateTable_*`); skip their descriptions because their TMDL schema is restricted.
+- Distribute visuals intentionally across the canvas unless the user specifies a layout.
+- Style priority: explicit user instruction > existing project or brand conventions > skill default preset.
+
 ## Working Flow
 
 1. Identify the artifact type: TMDL, import definition, report/page JSON, or visual JSON.
