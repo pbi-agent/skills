@@ -17,3 +17,10 @@
 - Added a new `General Instructions` section to `skills/powerbi/SKILL.md`.
 - Captured the shared Power BI rules for explicit measures, `_Measures` naming, protected auto-generated date tables, intentional visual placement, and style-priority order.
 - Validation: re-read the updated `SKILL.md` and checked the diff to confirm the new rules were inserted cleanly without changing the rest of the skill structure.
+
+## 2026-04-20
+
+- Refactored the legacy `pbi-agent` audit prompt feature into a new official skill at `skills/powerbi-audit/`.
+- Added `skills/powerbi-audit/SKILL.md` as the concise entrypoint, split the long audit framework into `references/workflow.md`, `references/rule-catalog-core.md`, and `references/rule-catalog-quality.md`, and bundled the resume checklist as `assets/AUDIT-TODO.md`.
+- Preserved the durable behavior from the original `audit_prompt.py` and `AUDIT-TODO.md`: resume from checked items, write `AUDIT-REPORT.md` incrementally, and score findings across the seven audit domains.
+- Validation: confirmed `SKILL.md` stays under 200 lines, verified non-empty `name` and `description` frontmatter, checked that all referenced local files exist, and reviewed `git status` to confirm the scope is limited to `TODO.md` and the new skill directory.
