@@ -5,16 +5,16 @@ This repository is the canonical workspace for maintaining official skills used 
 ## Scope
 
 - Treat this repo as a skills repository, not the main `pbi-agent` application codebase.
-- The primary artifact is an official skill folder under `.agents/skills/<skill-name>/`.
+- The primary artifact is an official skill folder under `skills/<skill-name>/`.
 - Each skill must be maintained in the official format centered on `SKILL.md`.
 - The current strategic goal is to refactor internal Power BI knowledge into official skills for `pbi-agent`.
 
 ## Repository Layout
 
-- `.agents/skills/<skill-name>/SKILL.md`: required skill entrypoint.
-- `.agents/skills/<skill-name>/references/`: optional detailed documentation loaded only when needed.
-- `.agents/skills/<skill-name>/scripts/`: optional deterministic helpers.
-- `.agents/skills/<skill-name>/assets/`: optional output resources and templates.
+- `skills/<skill-name>/SKILL.md`: required skill entrypoint.
+- `skills/<skill-name>/references/`: optional detailed documentation loaded only when needed.
+- `skills/<skill-name>/scripts/`: optional deterministic helpers.
+- `skills/<skill-name>/assets/`: optional output resources and templates.
 - `skills-lock.json`: lockfile for the local skill set; keep it aligned with skill changes when required by the repo workflow.
 
 ## Working Rules
@@ -38,14 +38,14 @@ Every skill must have:
 Minimum structure:
 
 ```text
-.agents/skills/<skill-name>/
+skills/<skill-name>/
 └── SKILL.md
 ```
 
 Preferred extended structure:
 
 ```text
-.agents/skills/<skill-name>/
+skills/<skill-name>/
 ├── SKILL.md
 ├── references/
 ├── scripts/
@@ -95,13 +95,6 @@ Before handoff, verify:
 - the directory name matches the skill `name`;
 - referenced local files actually exist;
 - the skill stays concise and does not duplicate large blocks already moved to `references/`.
-
-Useful checks:
-
-```bash
-find .agents/skills -maxdepth 2 -name SKILL.md
-rg -n "^name:|^description:" .agents/skills/*/SKILL.md
-```
 
 ## Priority For This Repo
 
