@@ -1,8 +1,3 @@
----
-name: composite_model_entity_query_guardrails
-description: Use when creating or repairing a PBIP semantic model with CSV or other entity-based import sources and Power BI reports "A composite model cannot be used with entity based query sources."
----
-
 # Composite Model Entity Query Guardrails
 
 Use this skill when a PBIP semantic model with local import data starts behaving like a composite model and validation fails with:

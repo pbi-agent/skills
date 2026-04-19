@@ -1,8 +1,3 @@
----
-name: report_structure
-description: Use when creating or refactoring Power BI report architecture across report.json, pages/*.json, and visual container navigation.
----
-
 # Report Structure
 
 Use when creating or refactoring report architecture (`report.json`, `pages/*.json`, visual containers) for any domain.

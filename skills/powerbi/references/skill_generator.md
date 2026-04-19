@@ -1,8 +1,3 @@
----
-name: skill_generator
-description: Use when a completed task exposed a durable lesson that should become a new official skill or an update to an existing one.
----
-
 # Skill Generator
 
 Use this when a task failed, was corrected, or exposed a non-obvious constraint that should be captured as an official skill in this repo.

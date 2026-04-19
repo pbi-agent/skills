@@ -1,8 +1,3 @@
----
-name: tmdl_descriptions
-description: Use when adding or editing table, column, or measure descriptions in TMDL semantic model files.
----
-
 # TMDL Descriptions
 
 Use this when adding or editing descriptions in TMDL files (`*.tmdl`).

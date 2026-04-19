@@ -1,8 +1,3 @@
----
-name: table_visual
-description: Use when creating or editing Power BI `tableEx` visuals and their query projections, sorting, and default table styling.
----
-
 # Table Visual
 
 Use when creating or editing `tableEx` visuals.

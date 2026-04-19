@@ -1,8 +1,3 @@
----
-name: dax_udf
-description: Use when creating, editing, or reviewing DAX user-defined functions (UDFs) in Power BI semantic models, DAX query scripts, or functions.tmdl.
----
-
 # DAX User-Defined Functions
 
 Apply this skill when the task involves reusable DAX logic that should live as a model function instead of being duplicated across measures, calculated columns, or visual calculations.

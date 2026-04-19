@@ -1,8 +1,3 @@
----
-name: action_button
-description: Use when creating or editing a Power BI action button visual that triggers back navigation, page navigation, drillthrough, bookmarks, or similar linked interactions.
----
-
 # Action Button
 
 Use this when creating or editing a Power BI `actionButton` visual in report JSON.

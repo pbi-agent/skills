@@ -1,8 +1,3 @@
----
-name: tmdl_modeling
-description: Use when creating or editing semantic model `.tmdl` files in Power BI PBIP projects, especially when preserving PBIP-safe metadata, measures, relationships, and partitions.
----
-
 # TMDL Modeling
 
 Use this when creating or editing semantic model files (`*.tmdl`) in Power BI PBIP projects.

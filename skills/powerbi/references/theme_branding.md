@@ -1,8 +1,3 @@
----
-name: theme_branding
-description: Use when defining or updating reusable Power BI theme tokens, typography, and packaged branding assets for PBIP reports.
----
-
 # Theme And Branding
 
 Use this when defining reusable branding tokens and visual defaults for a Power BI report.

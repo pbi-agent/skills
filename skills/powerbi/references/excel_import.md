@@ -1,8 +1,3 @@
----
-name: excel_import
-description: Use when creating or editing a PBIP semantic model that imports Excel data from a local workbook.
----
-
 # Excel Import
 
 Use when creating or editing a PBIP semantic model that imports Excel data from a local workbook.

@@ -1,8 +1,3 @@
----
-name: csv_local_import
-description: Use when creating or editing a PBIP semantic model that imports CSV data from a local file or folder, especially when preserving Power BI parameter metadata and PBIP-safe import semantics.
----
-
 # CSV Local Import
 
 Use this when creating or editing a PBIP semantic model that imports CSV data from local CSV files or folders.

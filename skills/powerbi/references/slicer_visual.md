@@ -1,8 +1,3 @@
----
-name: slicer_visual
-description: Use when creating or repairing Power BI slicer visuals, especially synced slicers, date-range filters, and dropdown filter interactions.
----
-
 # Slicer Visual
 
 Use this when creating or repairing Power BI slicer visuals, especially synced slicers, date filters, and dropdown filter interactions.

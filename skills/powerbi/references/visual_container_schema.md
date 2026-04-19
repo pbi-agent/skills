@@ -1,8 +1,3 @@
----
-name: visual_container_schema
-description: Use when creating or editing Power BI visual container JSON files for visuals, visual groups, layout bounds, or visual-level metadata.
----
-
 # Visual Container Schema
 
 Use when editing a visual container JSON file on a report page.

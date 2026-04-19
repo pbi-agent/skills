@@ -1,8 +1,3 @@
----
-name: filter_propagation
-description: Use when wiring or repairing Power BI page-to-page filter behavior across slicers, drillthrough, page filters, and visual filters.
----
-
 # Filter Propagation
 
 Use this when wiring page-to-page filtering behavior in Power BI reports, especially for slicers, drillthrough, page filters, and visual filters.

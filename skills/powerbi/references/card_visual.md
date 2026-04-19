@@ -1,8 +1,3 @@
----
-name: card_visual
-description: Use when creating or repairing Power BI card visuals (`card` or `cardVisual`) with query-correct bindings and durable styling.
----
-
 # Card Visual
 
 Use when editing Power BI card patterns for KPI tiles, status cards, or single-value callouts.

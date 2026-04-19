@@ -1,8 +1,3 @@
----
-name: bar_chart_visual
-description: Use when creating or editing Power BI bar-chart visual container JSON for clustered, stacked, or 100% stacked bar visuals.
----
-
 # Bar Chart Visual
 
 Use this skill when building or editing a Power BI bar-chart visual container.

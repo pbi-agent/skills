@@ -1,8 +1,3 @@
----
-name: navigation_bookmarks
-description: Use when implementing page navigation, drillthrough actions, bookmark-driven UX states, or popup-style interactions in Power BI reports.
----
-
 # Navigation And Bookmarks
 
 Use this skill when implementing page navigation, drillthrough actions, and bookmark-driven UX states.
