@@ -30,3 +30,10 @@
 - Added a new top-level `README.md` describing this repository as the official skills repo for `pbi-agent`.
 - Documented the repo purpose, skill-first directory structure, key files, current skill catalog, authoring principles, workflow, and scope so the project is easier to orient without reading `AGENTS.md` first.
 - Validation: read back `README.md` after creation and checked `git status --short` to confirm the change set is limited to the new README plus task-tracking updates in `TODO.md`.
+
+## 2026-04-20
+
+- Ported the durable `init_report` bootstrap behavior from `C:\Users\nbensaid_ext\workspace\pbi-agent\src\pbi_agent\init_command.py` into the official Power BI skill as a new reference file at `skills/powerbi/references/init_report.md`.
+- Updated `skills/powerbi/SKILL.md` so the `powerbi` skill now advertises the new PBIP initialization reference alongside the existing report-structure guidance.
+- Copied the bundled PBIP starter template into `skills/powerbi/assets/init_report_template/`, keeping only the scaffold entries that the original `init_report` command actually copies (`template_report.pbip`, `template_report.Report/`, and `template_report.SemanticModel/`).
+- Validation: inspected the copied asset root, compared the source template tree against the new asset while excluding packaging artefacts skipped by `init_report`, and checked `git status --short` to confirm the intended file changes.

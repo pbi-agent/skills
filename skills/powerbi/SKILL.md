@@ -16,6 +16,7 @@ Use this when the task touches any Power BI PBIP artifact or behavior.
 - Composite model failures involving entity-based sources: `references/composite_model_entity_query_guardrails.md`
 - DAX UDF authoring or review: `references/dax_udf.md`
 - Report architecture and page layout: `references/report_structure.md`
+- Bootstrapping a new PBIP project from the standard starter template: `references/init_report.md`
 - Filter flow across pages, slicers, and drillthrough: `references/filter_propagation.md`
 - Navigation, bookmarks, popup states, and back paths: `references/navigation_bookmarks.md`
 - Theme tokens and branding assets: `references/theme_branding.md`
@@ -54,6 +55,6 @@ Use this when the task touches any Power BI PBIP artifact or behavior.
 ## Reference Groups
 
 - Semantic modeling: `tmdl_modeling`, `tmdl_descriptions`, `csv_local_import`, `excel_import`, `composite_model_entity_query_guardrails`, `dax_udf`
-- Report behavior: `report_structure`, `filter_propagation`, `navigation_bookmarks`, `theme_branding`
+- Report behavior: `report_structure`, `init_report`, `filter_propagation`, `navigation_bookmarks`, `theme_branding`
 - Visual authoring: `visual_container_schema`, `action_button`, `bar_chart_visual`, `card_visual`, `slicer_visual`, `table_visual`
 - Catalog maintenance: `skill_generator`
