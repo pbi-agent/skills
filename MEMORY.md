@@ -24,3 +24,9 @@
 - Added `skills/powerbi-audit/SKILL.md` as the concise entrypoint, split the long audit framework into `references/workflow.md`, `references/rule-catalog-core.md`, and `references/rule-catalog-quality.md`, and bundled the resume checklist as `assets/AUDIT-TODO.md`.
 - Preserved the durable behavior from the original `audit_prompt.py` and `AUDIT-TODO.md`: resume from checked items, write `AUDIT-REPORT.md` incrementally, and score findings across the seven audit domains.
 - Validation: confirmed `SKILL.md` stays under 200 lines, verified non-empty `name` and `description` frontmatter, checked that all referenced local files exist, and reviewed `git status` to confirm the scope is limited to `TODO.md` and the new skill directory.
+
+## 2026-04-20
+
+- Added a new top-level `README.md` describing this repository as the official skills repo for `pbi-agent`.
+- Documented the repo purpose, skill-first directory structure, key files, current skill catalog, authoring principles, workflow, and scope so the project is easier to orient without reading `AGENTS.md` first.
+- Validation: read back `README.md` after creation and checked `git status --short` to confirm the change set is limited to the new README plus task-tracking updates in `TODO.md`.
