@@ -1,5 +1,5 @@
 # TODO
 
-[X] Replace the `Task Memory` rules in `AGENTS.md` with a compact single-file workflow
-[X] Validate the updated guidance for brevity and internal consistency
-[X] Append the implementation note to `MEMORY.md`
+[X] Read current `MEMORY.md` and `AGENTS.md` task-memory rules
+[X] Replace the old `MEMORY.md` log format with the required three-section structure
+[X] Compact prior-day detail into durable long-term memory and append the current task event

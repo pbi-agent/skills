@@ -1,45 +1,27 @@
 # MEMORY
 
-## 2026-04-19
+## Metadata
 
-- Normalized the heading/frontmatter format for six `skills/powerbi/references/*.md` files that were missing YAML metadata at the top.
-- Added `name` and `description` fields to `action_button-skeleton.md`, `bar_chart_visual-bar-chart-patterns.md`, `card_visual-card-patterns.md`, `csv_local_import-patterns.md`, `excel_import-excel-import-patterns.md`, and `slicer_visual-slicer-patterns.md` so the reference catalog is consistent.
-- Validation: checked the top of every Power BI reference file and ran a `python3` validation pass confirming each file now has frontmatter with non-empty `name` and `description`, followed by an H1 heading.
+- Purpose: shared repo memory for durable conventions and recent task history.
+- Required sections: `Metadata`, `Long-Term Memory`, `Detailed Task Events`.
+- Current detailed day: `2026-04-20`.
+- Compaction status: `2026-04-19` entries compacted into long-term memory on `2026-04-20`.
 
-## 2026-04-19
+## Long-Term Memory
 
-- Corrected the Power BI reference-file normalization target after checking the example skill at `.agents/skills/create-skill/references/*.md`.
-- Removed YAML frontmatter from all files under `skills/powerbi/references/` so reference files now start directly with an H1, matching the example pattern used by `create-skill`.
-- Validation: inspected the head of each Power BI reference file and ran a `python3` check confirming the first non-empty line in every `skills/powerbi/references/*.md` file is an H1 and no file still has frontmatter.
+- Repo scope: this is the official skills catalog for `pbi-agent`, centered on skill folders under `skills/<skill-name>/` rather than application code.
+- Skill format: each official skill uses `skills/<skill-name>/SKILL.md` with YAML frontmatter; `name` must match the directory slug and `description` should start with clear trigger language such as "Use when...".
+- Skill authoring pattern: keep `SKILL.md` concise, move bulky detail into one-level-deep `references/`, and prefer focused skills over broad catch-all skills.
+- Power BI guardrails to preserve when relevant: explicit measures, `_Measures` naming, protected auto-generated date tables, intentional visual placement, and correct PBIP metadata for imports, drillthrough, bookmarks, and visual schemas.
+- Power BI references convention: files under `skills/powerbi/references/` should start directly with an H1, not YAML frontmatter.
+- Official artifact inventory:
+- `skills/powerbi-audit/` exists as the official audit skill, with workflow and rule catalog references plus `assets/AUDIT-TODO.md`.
+- `skills/powerbi/references/init_report.md` documents the durable `init_report` bootstrap behavior.
+- `skills/powerbi/assets/init_report_template/` stores the PBIP starter scaffold copied from the original template source.
 
-## 2026-04-19
-
-- Added a new `General Instructions` section to `skills/powerbi/SKILL.md`.
-- Captured the shared Power BI rules for explicit measures, `_Measures` naming, protected auto-generated date tables, intentional visual placement, and style-priority order.
-- Validation: re-read the updated `SKILL.md` and checked the diff to confirm the new rules were inserted cleanly without changing the rest of the skill structure.
-
-## 2026-04-19
-
-- Refactored the legacy `pbi-agent` audit prompt feature into a new official skill at `skills/powerbi-audit/`.
-- Added `skills/powerbi-audit/SKILL.md` as the concise entrypoint, split the long audit framework into `references/workflow.md`, `references/rule-catalog-core.md`, and `references/rule-catalog-quality.md`, and bundled the resume checklist as `assets/AUDIT-TODO.md`.
-- Preserved the durable behavior from the original `audit_prompt.py` and `AUDIT-TODO.md`: resume from checked items, write `AUDIT-REPORT.md` incrementally, and score findings across the seven audit domains.
-- Validation: confirmed `SKILL.md` stays under 200 lines, verified non-empty `name` and `description` frontmatter, checked that all referenced local files exist, and reviewed `git status` to confirm the scope is limited to `TODO.md` and the new skill directory.
-
-## 2026-04-19
-
-- Added a new top-level `README.md` describing this repository as the official skills repo for `pbi-agent`.
-- Documented the repo purpose, skill-first directory structure, key files, current skill catalog, authoring principles, workflow, and scope so the project is easier to orient without reading `AGENTS.md` first.
-- Validation: read back `README.md` after creation and checked `git status --short` to confirm the change set is limited to the new README plus task-tracking updates in `TODO.md`.
+## Detailed Task Events
 
 ## 2026-04-20
 
-- Ported the durable `init_report` bootstrap behavior from `C:\Users\nbensaid_ext\workspace\pbi-agent\src\pbi_agent\init_command.py` into the official Power BI skill as a new reference file at `skills/powerbi/references/init_report.md`.
-- Updated `skills/powerbi/SKILL.md` so the `powerbi` skill now advertises the new PBIP initialization reference alongside the existing report-structure guidance.
-- Copied the bundled PBIP starter template into `skills/powerbi/assets/init_report_template/`, keeping only the scaffold entries that the original `init_report` command actually copies (`template_report.pbip`, `template_report.Report/`, and `template_report.SemanticModel/`).
-- Validation: inspected the copied asset root, compared the source template tree against the new asset while excluding packaging artefacts skipped by `init_report`, and checked `git status --short` to confirm the intended file changes.
-
-## 2026-04-20
-
-- Updated `AGENTS.md` to define a single-file `MEMORY.md` workflow with three sections: `Metadata`, `Long-Term Memory`, and `Detailed Task Events`.
-- Added a concise daily compaction rule: compact the previous day's detail into durable bullets before starting new-day entries, merge duplicate long-term facts, and keep task entries short.
-- Validation: read back the `Task Memory` section and checked the diff to confirm the new rules are brief, internally consistent, and aligned with the existing `TODO.md` session workflow.
+- Updated `AGENTS.md` to define the single-file `MEMORY.md` workflow with `Metadata`, `Long-Term Memory`, and `Detailed Task Events`; validation: reread the `Task Memory` section and confirmed the rules are brief and internally consistent; next: migrate `MEMORY.md` to the new structure.
+- Restructured `MEMORY.md` into the required three-section format and compacted prior-day entries into durable long-term bullets; validation: checked that only one current-day heading remains under `Detailed Task Events` and that durable repo conventions from `2026-04-19` were preserved without the old duplicate daily logs; next: append future task notes only under the active day and compact prior days at the start of a new day.
