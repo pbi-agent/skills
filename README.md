@@ -2,6 +2,8 @@
 
 This repository is the official skills catalog for `pbi-agent`.
 
+Repository: [https://github.com/pbi-agent/skills](https://github.com/pbi-agent/skills)
+
 It is the canonical workspace for authoring, refining, and validating the
 official skills that `pbi-agent` uses to handle skills. The repository
 is organized around skill directories, with each skill defined by a concise

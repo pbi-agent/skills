@@ -1,5 +1,4 @@
-# TODO
-
-[X] Read current `MEMORY.md` and `AGENTS.md` task-memory rules
-[X] Replace the old `MEMORY.md` log format with the required three-section structure
-[X] Compact prior-day detail into durable long-term memory and append the current task event
+[X] Review current skills repo memory and README
+[X] Add canonical repository URL to `README.md`
+[X] Update `MEMORY.md` for the new task day
+[X] Validate the skills repo changes

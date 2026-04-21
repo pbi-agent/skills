@@ -4,8 +4,8 @@
 
 - Purpose: shared repo memory for durable conventions and recent task history.
 - Required sections: `Metadata`, `Long-Term Memory`, `Detailed Task Events`.
-- Current detailed day: `2026-04-20`.
-- Compaction status: `2026-04-19` entries compacted into long-term memory on `2026-04-20`.
+- Current detailed day: `2026-04-21`.
+- Compaction status: `2026-04-20` entries compacted on `2026-04-21`.
 
 ## Long-Term Memory
 
@@ -21,7 +21,6 @@
 
 ## Detailed Task Events
 
-## 2026-04-20
+## 2026-04-21
 
-- Updated `AGENTS.md` to define the single-file `MEMORY.md` workflow with `Metadata`, `Long-Term Memory`, and `Detailed Task Events`; validation: reread the `Task Memory` section and confirmed the rules are brief and internally consistent; next: migrate `MEMORY.md` to the new structure.
-- Restructured `MEMORY.md` into the required three-section format and compacted prior-day entries into durable long-term bullets; validation: checked that only one current-day heading remains under `Detailed Task Events` and that durable repo conventions from `2026-04-19` were preserved without the old duplicate daily logs; next: append future task notes only under the active day and compact prior days at the start of a new day.
+- Added the canonical repository URL `https://github.com/pbi-agent/skills` to `README.md`, reset `TODO.md` for the session, and compacted the prior day log into metadata state; validation: reread `README.md`, `MEMORY.md`, and `TODO.md` to confirm the new link and required task-memory structure.
