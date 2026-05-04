@@ -13,4 +13,5 @@ is organized around skill directories, with each skill defined by a concise
 
 - `skills/powerbi/`: general Power BI PBIP authoring, editing, and review
 - `skills/powerbi-audit/`: evidence-based Power BI project audit workflow
+- `skills/research-lab/`: generic staged research workflow for evidence-based decisions and implementation
 - `skills/skill-creator/`: guide for creating effective skills following best practices
