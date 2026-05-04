@@ -1,6 +1,6 @@
 # pbi-agent Skills Repository
 
-This repository is the official skills catalog for `pbi-agent`.
+This repository is the official skills catalog for [pbi-agent](https://github.com/pbi-agent/pbi-agent).
 
 Repository: [https://github.com/pbi-agent/skills](https://github.com/pbi-agent/skills)
 
