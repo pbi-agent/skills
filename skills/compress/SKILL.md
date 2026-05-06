@@ -10,7 +10,7 @@ description: >
 
 ## Purpose
 
-Compress natural-language files such as `md` files, notes, or preferences into shorter caveman-style prose to reduce input tokens.
+Compress natural-language files such as `md` files, notes, or preferences into shorter terse-style prose to reduce input tokens.
 
 ## Process
 
