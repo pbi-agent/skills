@@ -2,8 +2,6 @@
 
 This repository is the official skills catalog for [pbi-agent](https://github.com/pbi-agent/pbi-agent).
 
-Repository: [https://github.com/pbi-agent/skills](https://github.com/pbi-agent/skills)
-
 It is the canonical workspace for authoring, refining, and validating the
 official skills that `pbi-agent` uses to handle skills. The repository
 is organized around skill directories, with each skill defined by a concise
@@ -11,7 +9,7 @@ is organized around skill directories, with each skill defined by a concise
 
 ## Current Skill Catalog
 
-- `skills/powerbi/`: general Power BI PBIP authoring, editing, and review
-- `skills/powerbi-audit/`: evidence-based Power BI project audit workflow
-- `skills/research-lab/`: generic staged research workflow for evidence-based decisions and implementation
-- `skills/skill-creator/`: guide for creating effective skills following best practices
+- [`skills/powerbi/`](skills/powerbi/SKILL.md): general Power BI PBIP authoring, editing, and review
+- [`skills/powerbi-audit/`](skills/powerbi-audit/SKILL.md): evidence-based Power BI project audit workflow
+- [`skills/research-lab/`](skills/research-lab/SKILL.md): generic staged research workflow for evidence-based decisions and implementation
+- [`skills/skill-creator/`](skills/skill-creator/SKILL.md): guide for creating effective skills following best practices
