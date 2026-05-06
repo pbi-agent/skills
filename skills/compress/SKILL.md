@@ -1,9 +1,9 @@
 ---
 name: compress
 description: >
-  Compress natural-language memory files into a shorter caveman-style form to save
-  input tokens while preserving technical substance, code, URLs, paths, commands,
-  and structure. Use when a user asks to compress a memory or notes file.
+  Compress natural-language memory files into a shorter terse form to save input tokens 
+  while preserving technical substance, code, URLs, paths, commands, and structure. 
+  Use when a user asks to compress a memory or notes file.
 ---
 
 # Compress
