@@ -1,3 +1,3 @@
-[X] Add ignore rule for raw source input
-[X] Validate `raw/` no longer appears as untracked
-[X] Update task memory after review fix
+[X] Add `skills/to-html/` to README catalog
+[X] Validate formatting
+[X] Update task memory

@@ -4,8 +4,8 @@
 
 - Purpose: shared repo memory for durable conventions and recent task history.
 - Required sections: `Metadata`, `Long-Term Memory`, `Detailed Task Events`.
-- Current detailed day: `2026-05-05`.
-- Compaction status: `2026-04-21` entries compacted on `2026-05-05`.
+- Current detailed day: `2026-05-09`.
+- Compaction status: `2026-05-08` entries compacted on `2026-05-09`.
 
 ## Long-Term Memory
 
@@ -18,14 +18,21 @@
 - Official artifact inventory:
 - `skills/powerbi-audit/` exists as the official audit skill, with workflow and rule catalog references plus `assets/AUDIT-TODO.md`.
 - `skills/research-lab/` exists as the generic staged research workflow skill, with artifact schemas, phase instructions, and domain-adaptation references.
+- `skills/to-html/` exists as the official HTML artifact creation skill, with example HTML patterns in `assets/`.
 - `skills/powerbi/references/init_report.md` documents the durable `init_report` bootstrap behavior.
 - `skills/powerbi/assets/init_report_template/` stores the PBIP starter scaffold copied from the original template source.
 
 ## Detailed Task Events
 
-## 2026-05-05
+## 2026-05-05 (compacted)
 
-- Added `skills/research-lab/` as a generic evidence-based research workflow skill converted from the raw lab framework, with concise `SKILL.md` plus `artifacts`, `phases`, and `domain-adaptation` references; updated the catalog README. Validation: read all new files and confirmed line counts under 200, reference paths exist, and `git diff --check` passed. Next context: `raw/` remains an untracked source input and was not modified.
-- Extended `skills/research-lab/` with optional subagent orchestration for root `plan.md`/`todo.md`, gap fixing, production-ready loops, serial delegated tasks, and main-agent review gates. Validation: reread updated `SKILL.md` and new `references/subagent-orchestration.md`; `git diff --check` passed.
-- Corrected `skills/research-lab/` subagent orchestration to remove example-specific trigger language and keep only generic phase delegation: one framework phase per subagent, main-agent review gate, then state update and next-phase selection. Validation: searched the skill for removed example terms and `git diff --check` passed.
-- Addressed review finding by adding `.gitignore` for local `raw/` migration source input so legacy command packets are not accidentally committed with official skills. Validation: `git status --short` no longer lists `raw/`; `git diff --check` passed.
+- Added and refined `skills/research-lab/`, including generic phase references, optional subagent orchestration, and review-driven cleanup; added `.gitignore` coverage for local `raw/` migration inputs. Validation included reference checks and `git diff --check`.
+
+## 2026-05-08 (compacted)
+
+- Added `skills/to-html/SKILL.md` and normalized the user-provided `skills/to_html/assets` folder to `skills/to-html/assets` for validator-compatible naming. Validation: `quick_validate.py` via `python3`, referenced asset path check, directory/name match check, and `git diff --check` passed. Next context: catalog README was left unchanged because the request was only to write the skill file.
+
+## 2026-05-09
+
+- Made `skills/to-html/SKILL.md` trigger wording generic by removing product-specific naming from the description. Validation: `quick_validate.py`, skill-folder wording scan, and `git diff --check` passed.
+- Added `skills/to-html/` to the README current skill catalog. Validation: `quick_validate.py` for `to-html` and `git diff --check` passed.
