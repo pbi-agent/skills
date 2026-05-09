@@ -98,19 +98,38 @@ For custom editing interfaces:
 
 ## HTML Construction Rules
 
-- Include `<!doctype html>`, `<html lang="en">`, UTF-8 charset, viewport meta,
+- Include `<!doctype html>`, `<html lang='en'>`, UTF-8 charset, viewport meta,
   and a descriptive `<title>`.
 - Use semantic structure: `header`, `main`, `section`, `article`, `nav`, `table`,
   `figure`, `figcaption`, `button`, and form elements where appropriate.
 - Define a small design system with CSS variables for color, type, spacing, and
   borders. Use responsive grids and media queries rather than fixed desktop-only
   layouts.
-- Use SVG for diagrams, flowcharts, timelines, state machines, and small
+- Use SVG for custom diagrams, flowcharts, timelines, state machines, and small
   illustrations. Use native tables for tabular data.
+- Use Mermaid diagrams/charts when they clarify flows, sequences, dependencies,
+  timelines, state changes, ER relationships, architecture, or simple chart-like
+  summaries more quickly than hand-authored SVG. Do not install Mermaid; embed
+  diagram definitions in `<pre class='mermaid'>` blocks and add the ESM CDN
+  script only when Mermaid is used. Use literal HTML quotes in copyable snippets;
+  do not backslash-escape attribute quotes:
+
+  ```html
+  <script type='module'>
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, securityLevel: 'strict' });
+  </script>
+  ```
+
+  Keep `securityLevel: 'strict'` unless the user explicitly needs trusted click
+  events or HTML labels. Mermaid's default page-load behavior renders all
+  `.mermaid` blocks; use `mermaid.run` only for dynamically added diagrams.
 - Use JavaScript only for purposeful interaction: tabs, filters, sorting,
   sliders, live previews, drag-and-drop, copy/export, or simple simulations.
 - Keep the artifact self-contained unless existing local assets are intentionally
-  referenced. Avoid remote CDN dependencies for confidential or offline work.
+  referenced. Avoid remote CDN dependencies for confidential or offline work;
+  Mermaid via jsDelivr is allowed for non-confidential artifacts when it avoids a
+  local install and improves clarity.
 - Escape untrusted text before inserting it into script-generated HTML.
 - Do not fabricate data, screenshots, sources, or benchmark results. Label
   assumptions and placeholders clearly.

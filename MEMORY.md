@@ -36,3 +36,7 @@
 
 - Made `skills/to-html/SKILL.md` trigger wording generic by removing product-specific naming from the description. Validation: `quick_validate.py`, skill-folder wording scan, and `git diff --check` passed.
 - Added `skills/to-html/` to the README current skill catalog. Validation: `quick_validate.py` for `to-html` and `git diff --check` passed.
+- Updated `skills/to-html/SKILL.md` to allow Mermaid diagrams/charts via jsDelivr ESM CDN without local install, with strict security defaults and offline/confidential caveats. Validation: manual frontmatter/content checks, 162-line count, and `git diff --check` passed; `quick_validate.py` was not present in this workspace.
+- Fixed review feedback in `skills/to-html/SKILL.md` by making Mermaid copyable snippets use unescaped HTML attribute quotes and adding an explicit no-backslash note. Validation: frontmatter/line-count/static quote check and `git diff --check` passed.
+- Tested `skills/to-html/SKILL.md` with a no-context sub-agent that created `test-to-html-mermaid-analysis.html` using Mermaid via jsDelivr ESM CDN and no install. Validation: static snippet checks for Mermaid/script/CDN/no escaped attribute quotes and `git diff --check` passed; browser rendering was not performed.
+- Created `test-to-html-mermaid-analysis.html` as a standalone test artifact for the `to-html` skill, including a Mermaid flowchart loaded from the jsDelivr ESM CDN. Validation: static snippet checks, no escaped Mermaid/module attribute quotes, and `git diff --check` passed.

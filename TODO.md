@@ -1,3 +1,3 @@
-[X] Add `skills/to-html/` to README catalog
-[X] Validate formatting
-[X] Update task memory
+[X] Test to-html skill with no-context sub-agent
+[X] Review generated result
+[X] Update memory
