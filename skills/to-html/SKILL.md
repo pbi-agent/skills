@@ -1,58 +1,64 @@
 ---
 name: to-html
-description: Use when creating a standalone HTML artifact instead of Markdown, especially for specs, implementation plans, explorations, PR explanations, code reviews, technical explainers, research reports, slide-style briefings, diagrams, design prototypes, component studies, or custom editing interfaces with copy/export behavior.
+description: Use when creating standalone HTML websites that illustrate concepts and make ideas or decisions more visual with tailored cards, charts, tables, Mermaid, snippets, or interactions.
 ---
 
 # To HTML
 
-Create readable, shareable, self-contained HTML artifacts when visual structure,
-information density, diagrams, or interaction will make the output easier to
-review than Markdown.
+Create readable, shareable, self-contained HTML artifacts when adaptive visual
+structure, information density, diagrams, or interaction will make a concept,
+idea, analysis, or decision easier to understand.
 
 ## Core Rule
 
-Default to a single `.html` file that opens directly in a browser. Use inline
-CSS and, when useful, inline JavaScript. Add external dependencies only when the
-user requests them or the target repo already has an expected local stack.
+Design for the user's job first, not from a generic reference page. Default to a
+single `.html` file that opens directly in a browser. Use inline CSS and, when
+useful, inline JavaScript. Add external dependencies only when the user requests
+them or the target repo already has an expected local stack.
 
 ## Startup
 
 1. Identify the reader, decision to support, source material, and expected use:
    read once, compare options, review code, tune a design, brief a team, or edit
    structured data.
-2. Choose the output path. Use the user-provided path when given; otherwise use
+2. Choose the visual grammar before coding: cards for summaries, charts for real
+   quantities, tables for dense comparisons, Mermaid or SVG for relationships,
+   annotated snippets for code, timelines for plans, and controls for exploration.
+3. Choose the output path. Use the user-provided path when given; otherwise use
    a concise slug such as `implementation-plan.html`, `pr-explainer.html`, or
    `triage-board.html` in the current working directory.
-3. Load only the relevant example asset(s) from `assets/` as pattern references.
-   Do not bulk-load every example.
-4. Build the artifact around the job, not around a generic document template.
+4. Build the artifact around the job, not around a generic document template or
+   gallery.
 5. Verify that the file is valid enough to open locally, that responsive layout
    works at narrow and wide widths, and that any buttons, filters, sliders, or
    export actions work.
 
-## Asset Guide
+## Visual Design Selection
 
-Use `assets/index.html` to browse the full gallery when unsure. Otherwise load
-one or two matching examples:
+Choose the format that makes the user's decision easier:
 
-- Exploration and planning: `01-exploration-code-approaches.html`,
-  `02-exploration-visual-designs.html`, `16-implementation-plan.html`
-- Code review and understanding: `03-code-review-pr.html`,
-  `04-code-understanding.html`, `17-pr-writeup.html`
-- Design and prototypes: `05-design-system.html`,
-  `06-component-variants.html`, `07-prototype-animation.html`,
-  `08-prototype-interaction.html`
-- Reports, research, and learning: `09-slide-deck.html`,
-  `10-svg-illustrations.html`, `11-status-report.html`,
-  `12-incident-report.html`, `13-flowchart-diagram.html`,
-  `14-research-feature-explainer.html`,
-  `15-research-concept-explainer.html`
-- Custom editing interfaces: `18-editor-triage-board.html`,
-  `19-editor-feature-flags.html`, `20-editor-prompt-tuner.html`
+- Cards: executive summaries, KPIs, option tiles, risk snapshots, status blocks,
+  personas, or small evidence packets. Each card needs a clear label, value or
+  takeaway, and optional status/severity cue.
+- Charts: real quantitative comparisons, trends, distributions, and before/after
+  views. Prefer simple SVG or CSS charts for small datasets; label axes, units,
+  ranges, and source. Do not invent numbers to fill a chart.
+- Tables: dense matrices, requirements, file inventories, tradeoffs, test cases,
+  or audit findings. Add sorting/filtering only when it helps; keep mobile
+  overflow readable.
+- Mermaid diagrams: flows, sequences, state machines, dependency maps, ER models,
+  timelines, architecture, or quick chart-like summaries when Mermaid is clearer
+  than hand-authored SVG and the CDN is acceptable.
+- Code snippets: APIs, configs, diffs, prompts, formulas, or scripts. Use short
+  snippets with titles, language labels, inline annotations, and copy buttons
+  when useful.
+- Callouts and timelines: decisions, risks, assumptions, milestones, failure
+  modes, and next actions.
+- Lightweight interaction: tabs, filters, toggles, sliders, search, preview, or
+  copy/export controls when the reader must explore or reuse content.
 
-Treat these files as examples to adapt, not immutable templates. Preserve the
-skill assets and write new artifacts outside `assets/` unless the user is
-explicitly maintaining the skill itself.
+Be creative in structure and visual hierarchy, but keep every visual tied to the
+reader's goal. Prefer a bespoke artifact over a generic landing page.
 
 ## Artifact Patterns
 
@@ -126,10 +132,10 @@ For custom editing interfaces:
   `.mermaid` blocks; use `mermaid.run` only for dynamically added diagrams.
 - Use JavaScript only for purposeful interaction: tabs, filters, sorting,
   sliders, live previews, drag-and-drop, copy/export, or simple simulations.
-- Keep the artifact self-contained unless existing local assets are intentionally
-  referenced. Avoid remote CDN dependencies for confidential or offline work;
-  Mermaid via jsDelivr is allowed for non-confidential artifacts when it avoids a
-  local install and improves clarity.
+- Keep the artifact self-contained unless the user explicitly provides local
+  files to reference. Avoid remote CDN dependencies for confidential or offline
+  work; Mermaid via jsDelivr is allowed for non-confidential artifacts when it
+  avoids a local install and improves clarity.
 - Escape untrusted text before inserting it into script-generated HTML.
 - Do not fabricate data, screenshots, sources, or benchmark results. Label
   assumptions and placeholders clearly.

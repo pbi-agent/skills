@@ -1,3 +1,7 @@
-[X] Test to-html skill with no-context sub-agent
-[X] Review generated result
-[X] Update memory
+# TODO
+
+[X] Update README to reflect current to-html skill scope
+[X] Validate skill/README changes
+[X] Commit changes
+[X] Push to origin
+[X] Update task memory

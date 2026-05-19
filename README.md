@@ -12,5 +12,5 @@ is organized around skill directories, with each skill defined by a concise
 - [`skills/powerbi/`](skills/powerbi/SKILL.md): general Power BI PBIP authoring, editing, and review
 - [`skills/powerbi-audit/`](skills/powerbi-audit/SKILL.md): evidence-based Power BI project audit workflow
 - [`skills/research-lab/`](skills/research-lab/SKILL.md): generic staged research workflow for evidence-based decisions and implementation
-- [`skills/to-html/`](skills/to-html/SKILL.md): standalone HTML artifact creation for plans, reports, reviews, diagrams, prototypes, and custom editing interfaces
+- [`skills/to-html/`](skills/to-html/SKILL.md): standalone HTML websites that make concepts, ideas, and decisions visual with tailored cards, charts, tables, Mermaid, snippets, and interactions
 - [`skills/skill-creator/`](skills/skill-creator/SKILL.md): guide for creating effective skills following best practices
