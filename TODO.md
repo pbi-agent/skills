@@ -5,5 +5,6 @@
 [X] Add skills/rsi/references/ for stage details and artifacts
 [X] Update README catalog
 [X] Validate skill
-[X] Commit and push
+[X] Commit
+[!] Push (GitHub 403)
 [X] Update task memory
