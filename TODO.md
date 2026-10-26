@@ -1,7 +1,10 @@
 # TODO
 
-[X] Update README to reflect current to-html skill scope
-[X] Validate skill/README changes
-[X] Commit changes
-[X] Push to origin
+[X] Compact 2026-05-19 memory entries
+[X] Add skills/rsi/SKILL.md with the user's Mermaid loop diagram
+[X] Add skills/rsi/references/ for stage details and artifacts
+[X] Update README catalog
+[X] Validate skill
+[X] Commit
+[!] Push (GitHub 403)
 [X] Update task memory

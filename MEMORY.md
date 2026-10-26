@@ -4,8 +4,8 @@
 
 - Purpose: shared repo memory for durable conventions and recent task history.
 - Required sections: `Metadata`, `Long-Term Memory`, `Detailed Task Events`.
-- Current detailed day: `2026-05-19`.
-- Compaction status: `2026-05-09` entries compacted on `2026-05-19`.
+- Current detailed day: `2026-10-26`.
+- Compaction status: `2026-05-19` entries compacted on `2026-10-26`.
 
 ## Long-Term Memory
 
@@ -18,7 +18,8 @@
 - Official artifact inventory:
 - `skills/powerbi-audit/` exists as the official audit skill, with workflow and rule catalog references plus `assets/AUDIT-TODO.md`.
 - `skills/research-lab/` exists as the generic staged research workflow skill, with artifact schemas, phase instructions, and domain-adaptation references.
-- `skills/to-html/` exists as the official HTML artifact creation skill focused on standalone, user-tailored visual design.
+- `skills/to-html/` exists as the official HTML artifact creation skill for standalone visual websites (concepts, ideas, decisions); it has no assets folder.
+- `skills/rsi/` exists as the recursive self-improving loop skill (Evaluate, Diagnose, Generate, Train, Gate); its `SKILL.md` must keep the user-provided Mermaid loop diagram verbatim.
 - `skills/to-html/SKILL.md` permits Mermaid via jsDelivr ESM CDN for non-confidential artifacts, with strict security defaults and literal unescaped HTML attribute quotes in copyable snippets.
 - `skills/powerbi/references/init_report.md` documents the durable `init_report` bootstrap behavior.
 - `skills/powerbi/assets/init_report_template/` stores the PBIP starter scaffold copied from the original template source.
@@ -37,9 +38,10 @@
 
 - Refined `skills/to-html/SKILL.md` trigger wording, Mermaid CDN guidance, and copyable snippet quoting; added README catalog coverage and a standalone Mermaid test artifact. Validation included `quick_validate.py` when present, static frontmatter/snippet checks, line count, and `git diff --check`.
 
-## 2026-05-19
+## 2026-05-19 (compacted)
 
-- Updated `skills/to-html/SKILL.md` to be user-need/adaptive-visual first, added card/chart/table/Mermaid/snippet design guidance, removed the gallery/reference-file workflow, and deleted `skills/to-html/assets/index.html`. Validation: Python frontmatter/name/line/reference checks and `git diff --check` passed. Next context: remaining `assets/` files are optional inspiration only.
-- Removed obsolete asset-folder guidance from `skills/to-html/SKILL.md`, compacted its trigger description, and aligned long-term memory after the folder was deleted. Validation: Python frontmatter/name/line/no-assets checks and `git diff --check` passed.
-- Reframed `skills/to-html/SKILL.md` description and intro away from Markdown replacement; it now targets standalone HTML websites for illustrating concepts and making ideas or decisions visual. Validation: Python frontmatter/name/line/no-Markdown-framing checks and `git diff --check` passed.
-- Updated README catalog wording for `skills/to-html/` to match the standalone visual-website scope after removing asset examples. Validation: Python frontmatter/README/no-assets checks and `git diff --check` passed; user requested commit and push.
+- Reworked `skills/to-html/` to user-need/adaptive-visual-first standalone websites, removed the assets/gallery workflow, and aligned README. Validation: frontmatter/name/line checks and `git diff --check`.
+
+## 2026-10-26
+
+- Added `skills/rsi/` (`SKILL.md` with the user's Mermaid loop diagram, `references/stages.md`, `references/artifacts.md`) and README catalog entry. Validation: frontmatter/name/reference checks, line count, and `git diff --check` passed.
