@@ -1,6 +1,6 @@
 ---
 name: rsi
-description: Use when building or running a recursive self-improving (RSI) loop that evaluates a model, prompt, agent, or skill with a judge, diagnoses and clusters its failures into weaknesses, generates targeted training data from seed references, and retrains or updates the target in repeated rounds.
+description: Use when building or running a recursive self-improving loop that evaluates a target with a judge, clusters its failures into weaknesses, and trains it on targeted generated data.
 ---
 
 # RSI Loop
