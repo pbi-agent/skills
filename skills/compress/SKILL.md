@@ -26,11 +26,14 @@ Rewrite text to be short, clear, and token-efficient. Keep every fact. Change on
 
 ## Process
 
-1. Read the full text. Find the main point and the audience (human or agent).
+1. Read the full text. Find the main point and the audience (human or agent). Count the words in the original text (`before`).
 2. Mark read-only regions (see Preserve).
 3. Apply the Structure, Sentence, and Word rules to the prose.
 4. Check: no lost facts, no changed meaning, read-only regions identical.
-5. Report: level used, approximate size reduction, and any risky region left unchanged.
+5. Count the words in the compressed text (`after`). Report:
+   - Level used
+   - Words: `before` → `after` (saved: `before - after`, `-X%`)
+   - Any risky region left unchanged
 
 ## Structure Rules
 
