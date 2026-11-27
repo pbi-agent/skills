@@ -1,0 +1,47 @@
+# The task record. Written by factoryctl only — never by hand, never by a sub-agent.
+task_id: ""
+folder: ""
+template_version: ""
+template_commit: "" # commit the template was copied from (rework skeletons come from here)
+created: ""
+source: "" # issue_tracker | chat | monitoring | ci | code_review | schedule | retro
+links: [] # related tasks, e.g. the task this one follows up after a rollback
+
+# Classification — the gates read these fields
+type: "" # profile name, set at intake
+secondary_types: []
+goal: ""
+acceptance_criteria: []
+risk: "" # low | medium | high — never below the profile floor
+change_size: minor # minor | major | structural
+flags: [] # see factory.yaml classification.flags
+expedite: false # set by a human at creation; forces approval at go-live
+on_hold: false # set by a human; every gate then needs approval
+
+# Git
+branch: ""
+base: main
+pr: "" # set when the draft PR opens at 03-build
+merge_commit: "" # set at 06-release
+outcome: "" # released | rolled_back, set at 06-release
+
+# Progress
+current_stage: 00-intake
+status: open # open | blocked | waiting_approval | done | rejected | rolled_back | cancelled
+pending: {} # { gate: <id>, reasons: [...], advance: true|false } while waiting_approval
+cost_usd: 0
+audit: "" # "" | pending | agreed | disagreed (sampled human audit of auto-passed tasks)
+
+stages: # status: pending | running | passed | failed | stale
+  00-intake: { status: pending, version: 1, verdict: "", finished: "" }
+  01-triage: { status: pending, version: 1, verdict: "", finished: "" }
+  02-plan: { status: pending, version: 1, verdict: "", finished: "" }
+  03-build: { status: pending, version: 1, verdict: "", finished: "" }
+  04-review: { status: pending, version: 1, verdict: "", finished: "" }
+  05-verify: { status: pending, version: 1, verdict: "", finished: "" }
+  06-release: { status: pending, version: 1, verdict: "", finished: "" }
+  07-retro: { status: pending, version: 1, verdict: "", finished: "" }
+
+gates: {} # <gate id>: { result: auto | approved, snapshot: {...}, date: "" }
+approvals: [] # - { gate: approach, by: name, date: "", evidence: url, reason: "" }
+loops: [] # - { from: 04-review, to: 03-build, reason: "", date: "" }

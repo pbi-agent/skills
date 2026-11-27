@@ -1,0 +1,3 @@
+# Task skeletons carry {{placeholders}} that factoryctl fills. A formatter rewrites
+# unquoted `{{x}}` in the YAML front matter to `{ { x } }` and breaks every task.
+factory/templates/task/*.md

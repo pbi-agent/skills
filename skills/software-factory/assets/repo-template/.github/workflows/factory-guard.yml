@@ -1,0 +1,66 @@
+# Factory guard — make this a REQUIRED status check on main.
+#
+# The rules always come from the base branch, never from the PR: a task branch
+# cannot relax the guard that judges it.
+name: factory-guard
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the PR
+        uses: actions/checkout@v4
+        with:
+          path: pr
+          fetch-depth: 0
+
+      - name: Check out the base branch (source of the rules)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.base_ref }}
+          path: base
+          fetch-depth: 0 # lint reads old skeletons with `git show <template_commit>:...`
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install pyyaml
+
+      - name: Changed files
+        run: git -C pr diff --name-only --no-renames "origin/${{ github.base_ref }}...HEAD" > files.txt
+
+      - name: Branch scope (rules from base)
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: python3 base/factory/bin/factoryctl --root base guard --branch "$HEAD_REF" --files-from files.txt
+
+      - name: Task folders are valid (rules from base, folders from the PR)
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          case "$HEAD_REF" in
+            task/*|closeout/*)
+              rm -rf base/tasks && cp -r pr/tasks base/tasks
+              python3 base/factory/bin/factoryctl --root base lint
+              ;;
+          esac
+
+      - name: Factory definition and tests (factory/ branches test their own change)
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          case "$HEAD_REF" in
+            factory/*)
+              python3 pr/factory/bin/factoryctl --root pr check
+              python3 -m unittest discover -s pr/factory/tests
+              python3 pr/factory/bin/factoryctl --root pr lint
+              ;;
+          esac

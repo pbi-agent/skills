@@ -1,0 +1,59 @@
+flowchart TB
+    SRC["Sources<br/>issues · chat · monitoring · CI · PRs · schedule · retro"] --> NEW
+
+    subgraph ORCH["Orchestrator · Opus · stateless: state.yaml + events.jsonl"]
+        NEW["dedupe · worktree + branch task/id-slug<br/>factoryctl new: copy template, save request"]
+        START["factoryctl start<br/>stamp header + inputs, print brief"]
+        ACC{"factoryctl accept<br/>document valid? evidence complete?<br/>apply proposals, route verdict"}
+        DIFF["after build: classify-diff + guard<br/>flags and size from the real diff"]
+        GATE{"gate fires?<br/>risk high · major/structural · any flag<br/>expedite · hold · loop limit · budget"}
+        RETRO["07-retro<br/>generated timeline · light or full"]
+    end
+
+    subgraph SUB["Isolated sub-agents · fresh context · least privilege"]
+        S0["00-intake · Opus<br/>no repo access"]
+        S1["01-triage · Opus<br/>read"]
+        S2["02-plan · <b>Fable</b><br/>read"]
+        S3["03-build · Opus<br/>write on task branch"]
+        S4["04-review · new agent<br/>Fable if risk ≥ medium"]
+        S5["05-verify · Opus<br/>staging / preview"]
+        S6["06-release · Opus<br/>merge + deploy"]
+    end
+
+    H(["Human approval<br/>recorded with evidence link"])
+    CI[["CI on the PR · required<br/>tests · factory-guard with rules from main"]]
+
+    NEW --> START
+    START -->|"brief: one stage, one fresh agent"| SUB
+    S0 --> S1 --> S2 --> S3 --> S4 --> S5 --> S6
+    SUB -->|"document + verdict"| ACC
+    DIFF -.-> ACC
+    ACC -->|"invalid: back to same agent"| START
+    ACC -->|pass| GATE
+    GATE -->|"no: auto"| START
+    GATE -->|yes| H
+    H -->|approve| START
+    H -->|deny| X(["cancelled"])
+    ACC -->|"reject (intake, triage)"| X2(["rejected"])
+
+    S4 -.->|"fail → build or plan"| S3
+    S5 -.->|"fail → build, plan or retry"| S3
+    S6 -.->|"fail before merge → verify or build"| S5
+    S6 -.->|"fail after merge: rollback"| FU["follow-up task<br/>linked to this one"]
+
+    S3 -.->|"draft PR"| CI
+    CI -.->|"must be green"| S6
+    S6 -->|"released or rolled back"| RETRO
+    RETRO -->|"closeout PR: 06 + 07 + state<br/>auto-merge, own folder only"| MAIN[("main")]
+    RETRO -.->|"recurring problem (2+ tasks)"| FC["factory_change task<br/>branch factory/id-slug · same pipeline"]
+    FC -->|"human merges (CODEOWNERS)"| F[("factory/<br/>definition · stages · profiles · template · factoryctl")]
+    F -.->|"rules + instructions"| ORCH
+
+    classDef human fill:#fde68a,stroke:#b45309,color:#000
+    classDef fable fill:#c7d2fe,stroke:#4338ca,color:#000
+    classDef orch fill:#dcfce7,stroke:#15803d,color:#000
+    classDef stop fill:#fecaca,stroke:#b91c1c,color:#000
+    class H human
+    class S2 fable
+    class NEW,START,ACC,DIFF,GATE,RETRO orch
+    class X,X2,FU stop

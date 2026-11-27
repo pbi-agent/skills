@@ -15,3 +15,4 @@ is organized around skill directories, with each skill defined by a concise
 - [`skills/to-html/`](skills/to-html/SKILL.md): standalone HTML websites that make concepts, ideas, and decisions visual with tailored cards, charts, tables, Mermaid, snippets, and interactions
 - [`skills/rsi/`](skills/rsi/SKILL.md): recursive self-improving loop that evaluates, diagnoses, generates targeted data, and retrains a model, prompt, agent, or skill
 - [`skills/skill-creator/`](skills/skill-creator/SKILL.md): guide for creating effective skills following best practices
+- [`skills/software-factory/`](skills/software-factory/SKILL.md): structured approach for developing, testing, and deploying software components

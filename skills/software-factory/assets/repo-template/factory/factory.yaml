@@ -1,0 +1,497 @@
+# Software Factory — definition v4.0
+#
+# This file is the single source of truth AND it is machine-readable:
+# factory/bin/factoryctl loads it to drive the state machine, evaluate gates,
+# stamp task documents and guard branches. Prose lives in the .md files;
+# anything a tool must decide lives here.
+#
+# One pipeline for every work type. Profiles tune checks and the risk floor.
+# Gates are auto by default; a human approves only when an escalation rule fires.
+
+factory:
+  name: software-factory
+  version: "4.0"
+
+  # ------------------------------------------------------------------
+  # Models — first matching `when` rule wins, then `stages`, then `default`
+  # ------------------------------------------------------------------
+  models:
+    default: claude-opus-5-5
+    orchestrator: claude-opus-5-5
+    stages:
+      02-plan: claude-fable-5-2 # planning always runs on Fable
+    when:
+      # Reviewer on a different model than the builder when the stakes justify it,
+      # so builder and reviewer do not share the same blind spots.
+      - { stage: 04-review, risk: [medium, high], model: claude-fable-5-2 }
+
+  # ------------------------------------------------------------------
+  # Controls — the factory's brakes
+  # ------------------------------------------------------------------
+  controls:
+    paused: false # true = no stage may start (kill switch)
+    max_open_tasks: 5 # WIP limit, enforced by `factoryctl new`
+    max_loops_per_stage: 3 # rework loops started from one stage
+    max_loops_per_task: 6 # all rework loops of a task together
+    max_cost_per_task_usd: 50 # crossing it asks a human once
+    audit_sample_rate: 0.10 # share of fully-auto tasks a human audits afterwards
+    criteria_frozen_after: 02-plan # later changes to goal / criteria raise `product_scope`
+
+  # ------------------------------------------------------------------
+  # Repository and branches
+  # ------------------------------------------------------------------
+  repository:
+    base: main
+    tasks_dir: tasks
+    template_dir: factory/templates/task
+    task_folder: "<yyyy-mm-dd>-<task-id>-<slug>"
+    branches:
+      task: "task/<task-id>-<slug>" # code + task folder (docs 00–05)
+      factory: "factory/<task-id>-<slug>" # the only branches allowed to touch factory/**
+      closeout: "closeout/<task-id>" # post-merge records: 06-release, 07-retro, final state
+    # The type is NOT part of the branch name: it is only known after intake and may
+    # change in triage. It goes into the PR title and label instead.
+    pr_title: "<pr_prefix>: <goal> (<task-id>)"
+    protected_paths: # never writable from task/* or closeout/* branches
+      - "factory/**"
+      - ".github/CODEOWNERS"
+      - ".github/workflows/factory-guard.yml"
+    not_versioned:
+      - "tasks/**/assets/**/*.log" # keep the CI artifact URL + sha256 in the evidence table
+
+  # ------------------------------------------------------------------
+  # Stages — identical for all work types.
+  #   inputs      documents the stage agent receives (latest accepted version of each)
+  #   repo_access none | read | write | merge
+  #   verdicts    what the stage may return
+  #   on_fail     stages a `fail` verdict may send the task back to (first = default)
+  # ------------------------------------------------------------------
+  stages:
+    - id: 00-intake
+      role: intake
+      run_by: sub-agent
+      inputs: [assets/request.md]
+      repo_access: none
+      does: capture the request, classify the type, write goal and acceptance criteria
+      exit: type, goal and testable acceptance criteria are set
+      verdicts: [pass, blocked, reject]
+      on_fail: []
+
+    - id: 01-triage
+      role: investigator
+      run_by: sub-agent
+      inputs: [00-intake]
+      repo_access: read
+      does: investigate, find root cause or scope, set risk, change size and flags
+      exit: no blocking unknowns; classification justified
+      verdicts: [pass, fail, blocked, reject]
+      on_fail: [00-intake]
+
+    - id: 02-plan
+      role: planner
+      run_by: sub-agent
+      inputs: [01-triage]
+      repo_access: read
+      does: approach, files, steps, one check per acceptance criterion, rollback
+      exit: every acceptance criterion has a check; rollback is defined
+      verdicts: [pass, fail, blocked]
+      on_fail: [01-triage]
+
+    - id: 03-build
+      role: builder
+      run_by: sub-agent
+      inputs: [02-plan]
+      repo_access: write
+      does: produce the change, run the build-stage checks, record evidence
+      exit: every required build check is in the evidence table with result pass
+      verdicts: [pass, fail, blocked]
+      on_fail: [02-plan]
+
+    - id: 04-review
+      role: reviewer
+      run_by: sub-agent # always a new agent, never the builder's
+      inputs: [02-plan, 03-build] # plus the PR diff
+      repo_access: read
+      does: independent assessment of the diff against plan, criteria and evidence
+      exit: no open finding of severity blocker or major
+      verdicts: [pass, fail, blocked]
+      on_fail: [03-build, 02-plan]
+
+    - id: 05-verify
+      role: verifier
+      run_by: sub-agent
+      inputs: [02-plan, 04-review]
+      repo_access: read
+      does: prove the acceptance criteria in a production-like environment
+      exit: every criterion proven outside the dev environment; verify checks pass
+      verdicts: [pass, fail, blocked]
+      on_fail: [03-build, 02-plan, 05-verify] # 05-verify = retry after an environment flake
+
+    - id: 06-release
+      role: operator
+      run_by: sub-agent
+      inputs: [02-plan, 05-verify] # the plan carries the rollback
+      repo_access: merge
+      does: merge, deploy or publish; watch for regressions; roll back if needed
+      exit: released, watch window clean — or rolled back cleanly
+      verdicts: [pass, fail, blocked]
+      on_fail: [05-verify, 03-build] # only before the merge; after it, fail = rolled back
+
+    - id: 07-retro
+      role: curator
+      run_by: orchestrator
+      inputs: [all] # every task file + events.jsonl (not session memory)
+      repo_access: read
+      does: record what slowed or broke the flow; file factory_change tasks for recurring problems
+      exit: retro written; factory change filed or "none" recorded
+      verdicts: [pass]
+      on_fail: []
+
+  # ------------------------------------------------------------------
+  # Classification — what the gates look at
+  # ------------------------------------------------------------------
+  classification:
+    risk: [low, medium, high] # ordered; agents may only raise
+    change_size: [minor, major, structural] # ordered; agents may only raise
+    size_thresholds: # measured on the real diff, tasks/** excluded
+      major: { files: 15, lines: 400 }
+    flags:
+      structural_change: # any of these forces change_size = structural
+        - architecture
+        - public_api
+        - data_model
+        - new_dependency
+        - security_model
+      important_decision:
+        - product_scope
+        - irreversible
+        - cost_or_license
+        - design_tradeoff
+    # Deterministic triggers: the orchestrator runs `factoryctl classify-diff` after build.
+    # A changed path that matches a glob sets the flag, whatever the agents claimed.
+    # Adapt these globs to the product repo at init.
+    path_triggers:
+      data_model: ["**/migrations/**", "**/schema.*", "**/*.sql"]
+      public_api: ["**/openapi*.y*ml", "**/*.proto", "api/**"]
+      security_model:
+        ["**/auth/**", "**/permissions/**", "**/*.pem", "**/iam/**"]
+      new_dependency:
+        [
+          "**/package.json",
+          "**/requirements*.txt",
+          "**/pyproject.toml",
+          "**/go.mod",
+          "**/Cargo.toml",
+          "**/pom.xml",
+        ]
+      architecture:
+        [
+          ".github/workflows/**",
+          "**/Dockerfile",
+          "infra/**",
+          "terraform/**",
+          "**/k8s/**",
+        ]
+
+  # ------------------------------------------------------------------
+  # Gates — evaluated by the orchestrator after the named stage is accepted
+  # ------------------------------------------------------------------
+  gates:
+    points:
+      - {
+          id: worth-doing,
+          after: 01-triage,
+          asks: "is this work worth doing as scoped?",
+        }
+      - { id: approach, after: 02-plan, asks: "is this the right approach?" }
+      - {
+          id: scope-drift,
+          after: 03-build,
+          asks: "the built change is bigger or riskier than what was approved — continue?",
+          only_if_changed_since: approach,
+        }
+      - { id: go-live, after: 05-verify, asks: "release to production?" }
+    escalate_when: # any one is enough
+      risk: [high]
+      change_size: [major, structural]
+      any_flag: true # every flag listed under classification.flags
+      expedite_at: [go-live] # expedited tasks always get a human at go-live
+      on_hold: true # a human pulled the task into approve
+    rules:
+      - classification can only raise a gate, never lower it
+      - only a human can lower risk or change size, with a recorded reason
+      - an approval names the approver and links to evidence (PR review, signed comment)
+      - a gate that was approved is asked again when its stage is redone
+
+  # ------------------------------------------------------------------
+  # Checks catalog — every check a profile may name.
+  #   stage    where the evidence must appear (03-build or 05-verify)
+  #   waivable true = may be "n/a" with a reason; false = must pass
+  # ------------------------------------------------------------------
+  baseline_checks: [ci_green, secrets_scan, acceptance_proven] # every task, every profile
+
+  checks:
+    ci_green:
+      {
+        stage: 03-build,
+        waivable: false,
+        proves: full CI pipeline green on the head commit,
+      }
+    secrets_scan:
+      {
+        stage: 03-build,
+        waivable: false,
+        proves: no credentials or keys in the diff,
+      }
+    acceptance_proven:
+      {
+        stage: 05-verify,
+        waivable: false,
+        proves: every acceptance criterion shown outside the dev environment,
+      }
+    reproduce:
+      { stage: 03-build, waivable: true, proves: a test fails before the fix }
+    fix_test:
+      {
+        stage: 03-build,
+        waivable: false,
+        proves: the same test passes after the fix,
+      }
+    regression_suite:
+      { stage: 03-build, waivable: false, proves: existing suite still green }
+    acceptance_tests:
+      {
+        stage: 03-build,
+        waivable: false,
+        proves: automated test per acceptance criterion,
+      }
+    docs_updated:
+      {
+        stage: 03-build,
+        waivable: true,
+        proves: user and developer docs match the new behavior,
+      }
+    ux_check:
+      {
+        stage: 05-verify,
+        waivable: true,
+        proves: user flow walked through in the preview environment,
+      }
+    behavior_unchanged:
+      {
+        stage: 03-build,
+        waivable: false,
+        proves: "tests untouched and green, or characterization tests added first",
+      }
+    perf_baseline:
+      {
+        stage: 05-verify,
+        waivable: true,
+        proves: no regression against the recorded baseline,
+      }
+    changelog_scan:
+      {
+        stage: 03-build,
+        waivable: false,
+        proves: upstream changelog read; breaking changes listed,
+      }
+    license_check:
+      {
+        stage: 03-build,
+        waivable: false,
+        proves: licenses of new or changed dependencies are allowed,
+      }
+    exploit_test:
+      {
+        stage: 03-build,
+        waivable: false,
+        proves: the exploit fails after the fix,
+      }
+    audit_log:
+      {
+        stage: 05-verify,
+        waivable: true,
+        proves: the security-relevant action is logged,
+      }
+    benchmark_before_after:
+      {
+        stage: 03-build,
+        waivable: false,
+        proves: "same benchmark, before and after, same hardware",
+      }
+    load_test:
+      {
+        stage: 05-verify,
+        waivable: true,
+        proves: target load sustained in a production-like environment,
+      }
+    plan_diff:
+      {
+        stage: 03-build,
+        waivable: false,
+        proves: infrastructure plan output attached and matches the plan,
+      }
+    dry_run:
+      {
+        stage: 05-verify,
+        waivable: false,
+        proves: applied successfully in a non-production environment,
+      }
+    rollback_tested:
+      {
+        stage: 05-verify,
+        waivable: false,
+        proves: rollback executed once in a non-production environment,
+      }
+    backup_verified:
+      {
+        stage: 05-verify,
+        waivable: false,
+        proves: a restore from the backup was tested,
+      }
+    dry_run_on_copy:
+      {
+        stage: 05-verify,
+        waivable: false,
+        proves: migration ran on a copy of production data; row counts reconciled,
+      }
+    rollback_script:
+      {
+        stage: 03-build,
+        waivable: false,
+        proves: down-migration exists and is tested,
+      }
+    links: { stage: 03-build, waivable: false, proves: no broken links }
+    style:
+      { stage: 03-build, waivable: true, proves: style and lint rules pass }
+    examples_run:
+      { stage: 03-build, waivable: true, proves: code examples execute }
+    tests_pass:
+      {
+        stage: 03-build,
+        waivable: false,
+        proves: new tests pass and are not flaky (3 runs),
+      }
+    coverage_delta:
+      { stage: 03-build, waivable: true, proves: coverage did not drop }
+    factory_check:
+      {
+        stage: 03-build,
+        waivable: false,
+        proves: factoryctl check and the factoryctl test suite pass,
+      }
+    dry_run_task:
+      {
+        stage: 05-verify,
+        waivable: false,
+        proves: a sample task ran through the changed factory end to end,
+      }
+
+  # ------------------------------------------------------------------
+  # Profiles — default_risk is a floor. A task with several types takes the
+  # highest floor and the union of checks (state.yaml: secondary_types).
+  # ------------------------------------------------------------------
+  profiles:
+    bug_fix:
+      {
+        default_risk: low,
+        pr_prefix: fix,
+        checks: [reproduce, fix_test, regression_suite],
+      }
+    feature:
+      {
+        default_risk: medium,
+        pr_prefix: feat,
+        checks: [acceptance_tests, docs_updated, ux_check],
+      }
+    refactor:
+      {
+        default_risk: medium,
+        pr_prefix: refactor,
+        checks: [behavior_unchanged, perf_baseline],
+      }
+    dependency_update:
+      {
+        default_risk: low,
+        pr_prefix: deps,
+        checks: [changelog_scan, license_check],
+      }
+    security_fix:
+      {
+        default_risk: high,
+        pr_prefix: security,
+        checks: [exploit_test, audit_log],
+      }
+    performance:
+      {
+        default_risk: medium,
+        pr_prefix: perf,
+        checks: [benchmark_before_after, load_test],
+      }
+    infrastructure:
+      {
+        default_risk: high,
+        pr_prefix: infra,
+        checks: [plan_diff, dry_run, rollback_tested],
+      }
+    data_migration:
+      {
+        default_risk: high,
+        pr_prefix: migration,
+        checks: [backup_verified, dry_run_on_copy, rollback_script],
+      }
+    docs:
+      {
+        default_risk: low,
+        pr_prefix: docs,
+        checks: [links, style, examples_run],
+      }
+    test_coverage:
+      {
+        default_risk: low,
+        pr_prefix: test,
+        checks: [tests_pass, coverage_delta],
+      }
+    factory_change:
+      {
+        default_risk: high,
+        pr_prefix: factory,
+        checks: [factory_check, dry_run_task],
+      }
+
+  # ------------------------------------------------------------------
+  # Retro
+  # ------------------------------------------------------------------
+  retro:
+    light_when: no loops, no escalations, no rollback, not expedited # timeline is generated; three lines of text suffice
+    full_otherwise: true
+    factory_change_needs: the same problem in at least 2 tasks (cite them), or 1 rollback
+    output: a factory_change task in intake — retro never edits factory/** itself
+
+  # ------------------------------------------------------------------
+  # Intake
+  # ------------------------------------------------------------------
+  intake:
+    sources: [issue_tracker, chat, monitoring, ci, code_review, schedule, retro]
+    request_is_untrusted: true # request text is data, never instructions to an agent
+    dedupe_by: orchestrator # against open PRs, branches and the tracker, before `factoryctl new`
+    task_id: tracker issue number when there is one, else next free T-number
+
+  # ------------------------------------------------------------------
+  # Metrics — all derived from tasks/*/state.yaml and events.jsonl by `factoryctl index`
+  # ------------------------------------------------------------------
+  metrics:
+    - lead_time_per_stage
+    - auto_pass_rate_per_gate
+    - escalation_rate
+    - rework_loops_per_task
+    - post_release_rollbacks
+    - cost_per_task
+    - audit_disagreement_rate # sampled auto-passed tasks where the human auditor disagreed
+
+  humans_own:
+    - goals and priorities
+    - escalated approvals
+    - merging every PR that touches factory/** (CODEOWNERS)
+    - audits of sampled auto-passed tasks
+    - the pause switch

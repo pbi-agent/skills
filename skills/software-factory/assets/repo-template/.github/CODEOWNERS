@@ -1,0 +1,7 @@
+# Humans own the factory. Every PR that touches these paths needs their review.
+# Replace @your-org/factory-owners with a real team, and turn on
+# "Require review from Code Owners" in the branch protection of main.
+/factory/                              @your-org/factory-owners
+/.github/CODEOWNERS                    @your-org/factory-owners
+/.github/workflows/factory-guard.yml   @your-org/factory-owners
+/retros/                               @your-org/factory-owners
